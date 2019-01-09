@@ -133,6 +133,11 @@ func forEachUnpack(t Type, output []byte, start, size int, components Arguments)
 		elemSize = getFullElemSize(t.Elem)
 	}
 
+	//static tuple.
+	if t.Elem.T == InterfaceTy && !isDynamicTuple(components) {
+		elemSize = len(components) * 32
+	}
+
 	for i, j := 0, 0; j < size; i, j = i+elemSize, j+1 {
 		inter, err := toGoType(i, *t.Elem, output[start:], components)
 		if err != nil {
@@ -177,6 +182,8 @@ func parseTuple(index int, t Type, output []byte, components Arguments) (interfa
 	if isDynamicTuple(components) {
 		offset := readInteger(reflect.Int32, output[index:index+32])
 		output = output[offset.(int32):]
+	} else {
+		output = output[index:]
 	}
 	return components.UnpackValues(output)
 }
