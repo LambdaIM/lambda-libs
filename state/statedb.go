@@ -248,6 +248,12 @@ func (self *StateDB) Database() Database {
 	return self.db
 }
 
+//Directly get and put value throught disk database instance
+func (self *StateDB) RawDatabase() *ethdb.LDBDatabase {
+	db := self.db.TrieDB().DiskDB().(*ethdb.LDBDatabase)
+	return db
+}
+
 // StorageTrie returns the storage trie of an account.
 // The return value is a copy and is nil for non-existent accounts.
 func (self *StateDB) StorageTrie(addr common.Address) Trie {
