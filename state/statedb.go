@@ -26,6 +26,7 @@ import (
 	"github.com/LambdaIM/lambda-libs/common"
 	"github.com/LambdaIM/lambda-libs/common/log"
 	"github.com/LambdaIM/lambda-libs/crypto"
+	"github.com/LambdaIM/lambda-libs/ethdb"
 	"github.com/LambdaIM/lambda-libs/rlp"
 	"github.com/LambdaIM/lambda-libs/trie"
 )
