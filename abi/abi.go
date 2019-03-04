@@ -201,7 +201,7 @@ func (abi *ABI) Encode(name string, args string) ([]byte, error) {
 		case AddressTy:
 			_sv, err := argStack.Pop()
 			expectNoErr(err)
-			iArgs = append(iArgs, common.BytesToAddress([]byte(_sv.(string))))
+			iArgs = append(iArgs, common.BytesToAddress(common.FromHex(_sv.(string))))
 		case FixedBytesTy:
 			_sv, err := argStack.Pop()
 			expectNoErr(err)
