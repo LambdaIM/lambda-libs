@@ -90,7 +90,7 @@ type stateObject struct {
 
 // empty returns whether the account is considered empty.
 func (s *stateObject) empty() bool {
-	return s.data.Nonce == 0 && s.data.Balance.Sign() == 0 && bytes.Equal(s.data.CodeHash, emptyCodeHash)
+	return s.data.Nonce == 0 && s.data.Balance.Sign() == 0 && bytes.Equal(s.data.CodeHash, emptyCodeHash) && bytes.Equal(s.data.TxHash, emptyCodeHash)
 }
 
 // Account is the Ethereum consensus representation of accounts.
@@ -100,6 +100,8 @@ type Account struct {
 	Balance  *big.Int
 	Root     common.Hash // merkle root of the storage trie
 	CodeHash []byte
+	TxHash   []byte // experimental root hash of transactions
+	DealHash []byte
 }
 
 // newObject creates a state object.
@@ -109,6 +111,12 @@ func newObject(db *StateDB, address common.Address, data Account) *stateObject {
 	}
 	if data.CodeHash == nil {
 		data.CodeHash = emptyCodeHash
+	}
+	if data.TxHash == nil {
+		data.TxHash = nil
+	}
+	if data.DealHash == nil {
+		data.DealHash = nil
 	}
 	return &stateObject{
 		db:            db,
@@ -340,6 +348,26 @@ func (self *stateObject) SetNonce(nonce uint64) {
 
 func (self *stateObject) setNonce(nonce uint64) {
 	self.data.Nonce = nonce
+}
+
+func (self *stateObject) SetTxHash(hash []byte) {
+	self.setTxHash(hash)
+}
+
+func (self *stateObject) setTxHash(hash []byte) {
+	self.data.TxHash = hash
+}
+
+func (self *stateObject) TxHash() []byte {
+	return self.data.TxHash
+}
+
+func (self *stateObject) SetDealHash(hash []byte) {
+	self.data.DealHash = hash
+}
+
+func (self *stateObject) DealHash() []byte {
+	return self.data.DealHash
 }
 
 func (self *stateObject) CodeHash() []byte {
