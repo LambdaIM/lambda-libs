@@ -15,17 +15,11 @@ func New(ctx ...interface{}) Logger {
 	return &logger{}
 }
 
-func (l *logger) Debug(msg string, ctx ...interface{}) {
-	fmt.Println("Debug:", msg, ctx)
-}
+func (l *logger) Debug(msg string, ctx ...interface{}) {}
 
-func (l *logger) Info(msg string, ctx ...interface{}) {
-	fmt.Println("Info:", msg, ctx)
-}
+func (l *logger) Info(msg string, ctx ...interface{}) {}
 
-func (l *logger) Warn(msg string, ctx ...interface{}) {
-	fmt.Println("Warn:", msg, ctx)
-}
+func (l *logger) Warn(msg string, ctx ...interface{}) {}
 
 func (l *logger) Error(msg string, ctx ...interface{}) {
 	fmt.Println("Error:", msg, ctx)
